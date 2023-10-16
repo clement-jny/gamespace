@@ -1,9 +1,12 @@
-import Image from 'next/image'
+import React from 'react';
+import LoginForm from './loginForm';
+import SignupForm from './signupForm';
 
 export default function Home() {
 	return (
 		<main>
-			login-page
+			<LoginForm />
+			<SignupForm />
 		</main>
-	)
+	);
 }
