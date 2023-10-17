@@ -1,7 +1,11 @@
 import React from 'react';
 import './styles.css';
 
-const SignupForm = () => {
+interface SignupFormProps {
+    toggleSignup: () => void;
+}
+
+const SignupForm = ({ toggleSignup }: SignupFormProps) => {
     return (
         <div className="form-container">
             <h2 className="form-title">Inscription</h2>
@@ -18,7 +22,14 @@ const SignupForm = () => {
                     <label className="form-label">Mot de passe :</label>
                     <input className="form-input" type="password" />
                 </div>
-                <button className="form-button">S'inscrire</button>
+
+                <button className="form-button">
+                    Se connecter
+                </button>
+
+                <button className="form-signup" onClick={toggleSignup}>
+                    Annuler
+                </button>
             </form>
         </div>
     );
