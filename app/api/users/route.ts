@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Prisma, PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { db } from '../db/prisma';
+import { Prisma, User } from '@prisma/client';
 
 
 /* GET ALL USERS */
 export const GET = async (request: NextRequest) => {
 	try {
-		const users = await prisma.user.findMany();
+		const users = await db.user.findMany();
 
 		if (users.length !== 0) {
 			return NextResponse.json(users, { status: 200 });
@@ -15,8 +15,7 @@ export const GET = async (request: NextRequest) => {
 		}
 	} catch (error) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			console.error(error.code, error.message)
-			return NextResponse.json({ error: 'Error getting users' }, { status: 500 })
+			return NextResponse.json({ code: error.code, message: error.message, error: 'Error getting users' }, { status: 500 });
 		} else {
 			console.error(error)
 		}
@@ -26,8 +25,9 @@ export const GET = async (request: NextRequest) => {
 /* INSERT ONE USER */
 export const POST = async (request: NextRequest) => {
 	try {
-		const { email, password, username, lastname, firstname } = await request.json();
-		const newUser = await prisma.user.create({
+		const { email, password, username, lastname, firstname }: User = await request.json();
+
+		const user = await db.user.create({
 			data: {
 				email: email,
 				password: password,
@@ -37,27 +37,12 @@ export const POST = async (request: NextRequest) => {
 			}
 		});
 
-		return Response.json(newUser, { status: 201 });
+		return NextResponse.json(user, { status: 201 });
 	} catch (error) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			console.log(error.code, error.message)
-			return Response.json({ error: 'Error creating user' }, { status: 500 })
+			return NextResponse.json({ code: error.code, message: error.message, error: 'Error creating user' }, { status: 500 });
 		} else {
 			console.error(error)
 		}
 	}
 }
-
-
-// (async () => {
-
-// })()
-// 	.then(async () => {
-// 		await prisma.$disconnect()
-// 		console.log('disconnected');
-// 	})
-// 	.catch(async (e) => {
-// 		console.error(e)
-// 		await prisma.$disconnect()
-// 		process.exit(1)
-// 	})
