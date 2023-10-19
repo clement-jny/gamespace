@@ -30,7 +30,7 @@ model Address {
     zipCode String
 
     userId String @unique
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Product {
@@ -47,7 +47,7 @@ model Product {
     images Image[]
 
     userId String
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
 }
@@ -70,7 +70,7 @@ model Image {
     url String @unique
 
     productId String
-    product   Product @relation(fields: [productId], references: [id])
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
     @@index([productId])
 }
