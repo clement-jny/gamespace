@@ -1,24 +1,21 @@
-// ProductsTable.tsx
-import React from 'react';
-import ProductInfo from './productInfo';
-
+import { ProductInfo } from './ProductInfo';
 
 const productsData = [
-    {
-        title: "Jeux Rocket League",
-        description: "Je vends ce jeu car je n'y joue plus.",
-        productCondition: "MINT",
-        platform: "XBOX",
-    },
-    // Ajoutez d'autres produits ici
+	{
+		title: 'Jeux Rocket League',
+		description: 'Je vends ce jeu car je n\'y joue plus.',
+		productCondition: 'MINT',
+		platform: 'XBOX',
+	},
+	// Ajoutez d'autres produits ici
 ];
 
-export default function tableProduct() {
-    return (
-        <div className="overflow-x-auto">
-            {productsData.map((product, index) => (
-                <ProductInfo key={index} product={product} />
-            ))}
-        </div>
-    )
+export const TableProduct = () => {
+	return (
+		<div className='overflow-x-auto'>
+			{productsData.map((product, index) => (
+				<ProductInfo key={index} product={product} />
+			))}
+		</div>
+	)
 }

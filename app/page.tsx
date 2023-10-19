@@ -1,25 +1,59 @@
-"use client"
-import React, { useState } from 'react';
-import { LoginForm } from './loginForm';
-import { SignupForm } from './signupForm';
+'use client';
 
-import logo from './images/logo_gamespace.png'
+import Link from 'next/link';
+import { useSession } from '@/lib/useSession';
 
+const Home = () => {
+	const auth = useSession();
 
-export default function Home() {
-	const [showSignup, setShowSignup] = useState(false);
+	// 	const cookieStore = cookies();
+	// 	const token = cookieStore.get('token');
 
-	const toggleSignup = () => {
-		setShowSignup(!showSignup);
-	};
+	// 	const user = await apiGetAuthUser();
 
 	return (
 		<main>
-			{showSignup ? (
-				<SignupForm toggleSignup={toggleSignup} />
-			) : (
-				<LoginForm toggleSignup={toggleSignup} />
+			<>
+				<h1>Public Home Page</h1>
+				<header>
+					<nav>
+						{auth ? (
+							<p>logged in</p>
+						) : (
+							<Link href='/login'>Login</Link>
+						)}
+					</nav>
+				</header>
+				{/* {session}
+			{!session && (
+				<>
+					<li>
+						<Link href='/register' className='text-ct-dark-600'>
+							Register
+						</Link>
+					</li>
+					<li>
+						<Link href='/login' className='text-ct-dark-600'>
+							Login
+						</Link>
+					</li>
+				</>
 			)}
+			{session && (
+				<>
+					<li>
+						<Link href='/profile' className='text-ct-dark-600'>
+							Profile
+						</Link>
+					</li>
+					<li className='cursor-pointer'>
+						Logout
+					</li>
+				</>
+			)} */}
+			</>
 		</main>
 	);
 }
+
+export default Home;
