@@ -3,14 +3,14 @@ import Image from 'next/image';
 import image from '@/public/images/rocket-game.jpg';
 
 type Product = {
-	id: number,
+	id: string,
 	title: string,
 	description: string,
 	platform: string,
 	productCondition: string,
 }
 
-export const ProductInfo = (product: Product) => {
+export const ProductInfo = ({ id, title, description, platform, productCondition }: Product) => {
 	const [productInfo, setProductInfo] = useState({
 		title: 'Jeux Rocket League',
 		description: 'Je vends ce jeu car je n\'y joue plus.',

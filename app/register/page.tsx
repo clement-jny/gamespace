@@ -1,75 +1,14 @@
-'use client';
-
-import { useState } from 'react';
-import './styles.css';
-import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { RegisterForm } from "./components/RegisterForm";
 
 const Register = () => {
-	const router = useRouter();
-
-
-	const [username, setUsername] = useState('aa');
-	const [email, setEmail] = useState('aa@aa.fr');
-	const [password, setPassword] = useState('aaaaaaaa');
-	const [passwordConfirm, setPasswordConfirm] = useState('aaaaaaaa');
-
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
-		fetch('http://localhost:3000/api/auth/register', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ username, email, password })
-		})
-			.then(res => res.json())
-			.then(data => {
-				console.log(data);
-				if (data.success) {
-					toast.success(data.message);
-					router.push("/login");
-
-					//console.log('Register ok!');
-				} else {
-					toast.error(data.message);
-
-					//console.log('Register failed!');
-				}
-			})
-			.catch(err => console.log(err));
-
-		//console.log('Submitted!');
-	}
-
 	return (
-		<div className="form-container">
-			<h2 className="form-title">Inscription</h2>
-			<form onSubmit={handleSubmit}>
-				<div>
-					<label className="form-label">Nom d utilisateur :</label>
-					<input className="form-input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-				</div>
-				<div>
-					<label className="form-label">Email :</label>
-					<input className="form-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-				</div>
-				<div>
-					<label className="form-label">Mot de passe :</label>
-					<input className="form-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-				</div>
-				<div>
-					<label className="form-label">Confirmer mot de passe :</label>
-					<input className="form-input" type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
-				</div>
+		<main className='flex flex-col justify-center items-center'>
+			<div className='w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl'>
+				<h2 className='text-3xl font-semibold text-center'>Register</h2>
 
-				<button type='submit' className="form-button">S inscrire</button>
-
-				<Link href="/login">Se connecter</Link>
-			</form>
-		</div>
+				<RegisterForm />
+			</div>
+		</main>
 	)
 }
 
