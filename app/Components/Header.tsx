@@ -4,6 +4,17 @@ import Image from 'next/image';
 export const Header = () => {
 	const isAuth: boolean = false;
 
+	// const handleLogout = async () => {
+	// 	store.setRequestLoading(true);
+	// 	try {
+	// 		await apiLogoutUser();
+	// 	} catch (error) {
+	// 	} finally {
+	// 		store.reset();
+	// 		router.push("/login");
+	// 	}
+	// };
+
 	return (
 		<header>
 			<nav>
@@ -35,6 +46,7 @@ export const Header = () => {
 									<ul tabIndex={0} className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
 										<li><Link href='/account'>Dashboard</Link></li>
 										<li><a>Logout</a></li>
+										{/* <li onClick={handleLogout}>Logout</li> */}
 									</ul>
 								</div>
 							) : (

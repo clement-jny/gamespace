@@ -1,13 +1,13 @@
-import { NextRequest } from "next/server";
-import { sendResponse } from "@/lib/helpers";
-import { db } from "@/lib/prisma";
-import { verifyJWT } from "@/lib/token";
+import { NextRequest } from 'next/server';
+import { sendResponse } from '@/lib/helpers';
+import { db } from '@/lib/prisma';
+import { verifyJWT } from '@/lib/token';
 
 export const GET = async (request: NextRequest) => {
 	let token: string | undefined;
 
 	if (request.cookies.has('token')) {
-		token = request.cookies.get("token")?.value;
+		token = request.cookies.get('token')?.value;
 	}
 
 	try {
@@ -23,7 +23,7 @@ export const GET = async (request: NextRequest) => {
 				}
 			});
 
-			return sendResponse(true, 'Successfully logged in', 200, { user: { ...user, password: undefined } });
+			return sendResponse(true, 'Successfully returned ME', 200, { user: { ...user, password: undefined } });
 		} else {
 			return sendResponse(false, 'No Token', 401);
 		}

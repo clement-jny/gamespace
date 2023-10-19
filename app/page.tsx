@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useSession } from '@/lib/useSession';
+import { useAuth } from '@/lib/useAuth';
 
 const Home = () => {
-	const auth = useSession();
+	// const auth = useSession();
+	const auth = useAuth();
 
 	// 	const cookieStore = cookies();
 	// 	const token = cookieStore.get('token');
