@@ -1,22 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { sendResponse } from '@/lib/helpers';
 
 /* LOGOUT THE USER */
 export async function GET(request: NextRequest) {
-	const response = NextResponse.json({ status: 'success' },
-		{
-			status: 200,
-			headers: { 'Content-Type': 'application/json' }
-		});
+	const response = sendResponse(true, 'Successfully logged out', 200);
 
 	await Promise.all([
 		response.cookies.set({
-			name: 'logged-in',
-			value: 'false',
+			name: 'token',
+			value: '',
 			maxAge: -1
 		}),
 		response.cookies.set({
-			name: 'username',
-			value: '',
+			name: 'logged-in',
+			value: 'false',
 			maxAge: -1
 		})
 	]);

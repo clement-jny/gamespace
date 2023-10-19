@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '../db/prisma';
+import { db } from '@/lib/prisma';
 import { Prisma, User } from '@prisma/client';
 
 
@@ -25,15 +25,13 @@ export const GET = async (request: NextRequest) => {
 /* INSERT ONE USER */
 export const POST = async (request: NextRequest) => {
 	try {
-		const { email, password, username, lastname, firstname }: User = await request.json();
+		const { email, password, username }: User = await request.json();
 
 		const user = await db.user.create({
 			data: {
 				email: email,
 				password: password,
-				username: username,
-				lastname: lastname,
-				firstname: firstname
+				username: username
 			}
 		});
 

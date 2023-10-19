@@ -1,23 +1,59 @@
-//'use client'
+// import React from 'react';
+// import { cookies } from 'next/headers';
+// import { apiGetAuthUser } from '@/lib/api-requests';
+// import { AuthPageInvisible } from '@/lib/protect-page';
 
-import React, { useEffect } from 'react';
-//import { cookies } from 'next/headers';
-//import { useRouter } from 'next/navigation';
+'use client'
+import Link from "next/link";
+import { useSession } from '@/lib/useSession';
 
 export default function Home() {
-	//const router = useRouter();
+	const auth = useSession();
 
-	// const cookieStore = cookies();
-	// const cookieLog = cookieStore.get('logged-in');
+	// 	const cookieStore = cookies();
+	// 	const token = cookieStore.get("token");
 
-	// if (cookieLog) {
-	// 	console.log('Logged in!');
-	// } else {
-	// 	console.log('Not logged in!');
-	// }
+	// 	const user = await apiGetAuthUser();
 
 	return (
-		//<button onClick={() => router.push('/')}>Back</button>
-		<></>
-	)
+		<>
+			<h1>Public Home Page</h1>
+			<header>
+				<nav>
+					{auth ? (
+						<p>logged in</p>
+					) : (
+						<Link href="/login">Login</Link>
+					)}
+				</nav>
+			</header>
+			{/* {session}
+			{!session && (
+				<>
+					<li>
+						<Link href="/register" className="text-ct-dark-600">
+							Register
+						</Link>
+					</li>
+					<li>
+						<Link href="/login" className="text-ct-dark-600">
+							Login
+						</Link>
+					</li>
+				</>
+			)}
+			{session && (
+				<>
+					<li>
+						<Link href="/profile" className="text-ct-dark-600">
+							Profile
+						</Link>
+					</li>
+					<li className="cursor-pointer">
+						Logout
+					</li>
+				</>
+			)} */}
+		</>
+	);
 }

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 
-type EnvVariableKey = | 'JWT_SECRET_KEY' | 'JWT_EXPIRES_IN';
+type EnvVariableKey = 'JWT_SECRET_KEY' | 'JWT_EXPIRES_IN';
 
 export const getEnvVariable = (key: EnvVariableKey): string => {
 	const value = process.env[key];
@@ -14,8 +13,7 @@ export const getEnvVariable = (key: EnvVariableKey): string => {
 	return value;
 }
 
-
-export const sendResponse = (success: boolean, message: string, status: number, data?: any) => {
+export const sendResponse = (success: boolean, message: string, status: number, data?: {}) => {
 	return NextResponse.json({ success, message, data },
 		{
 			status,

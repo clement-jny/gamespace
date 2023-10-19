@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import './styles.css';
-import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
 
 interface LoginFormProps {
 	toggleSignup: () => void;
 }
 
 export const LoginForm = ({ toggleSignup }: LoginFormProps) => {
-	//const router = useRouter();
+	const router = useRouter();
+
+
 
 	const [email, setEmail] = useState('aa@aa.fr');
-	const [password, setPassword] = useState('aa');
+	const [password, setPassword] = useState('aaaaaaaa');
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -20,28 +24,28 @@ export const LoginForm = ({ toggleSignup }: LoginFormProps) => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ email: email, password: password })
+			body: JSON.stringify({ email, password })
 		})
 			.then(res => res.json())
 			.then(data => {
 				console.log(data);
-				if (data.status === 'success') {
-					//localStorage.setItem('username', data.user.username);
+				if (data.success) {
+					toast.success(data.message);
+					console.log('data.data.user => ', data.data.user);
 
-					console.log('Logged in!');
+					//router.push("/home"); // change to /
+
+					// console.log('Logged in!');
 				} else {
-					alert(data.message);
+					toast.error(data.message);
 
-					console.log('Login failed!');
+					// console.log('Login failed!');
 				}
 			})
 			.catch(err => console.log(err));
 
-		//router.push('/home');
-
-		console.log('Submitted!');
+		// console.log('Submitted!');
 	}
-
 
 	return (
 		<div className="form-container">
@@ -58,7 +62,7 @@ export const LoginForm = ({ toggleSignup }: LoginFormProps) => {
 
 				<button type="submit" className="form-button">Se connecter</button>
 
-				<button className="form-signup" onClick={toggleSignup}>S'inscrire</button>
+				<button className="form-signup" onClick={toggleSignup}>S inscrire</button>
 			</form>
 		</div>
 	);

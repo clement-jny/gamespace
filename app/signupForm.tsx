@@ -1,5 +1,7 @@
-import { use, useState } from 'react';
+import { useState } from 'react';
 import './styles.css';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 // CHECK HERE IF 'PASSWORD' & 'PASSWORDCONFIRM' ARE THE SAME //
 
@@ -11,6 +13,9 @@ interface SignupFormProps {
 
 
 export const SignupForm = ({ toggleSignup }: SignupFormProps) => {
+	const router = useRouter();
+
+
 	const [username, setUsername] = useState('aa');
 	const [email, setEmail] = useState('aa@aa.fr');
 	const [password, setPassword] = useState('aaaaaaaa');
@@ -24,29 +29,25 @@ export const SignupForm = ({ toggleSignup }: SignupFormProps) => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ username: username, email: email, password: password, passwordConfirm: passwordConfirm })
+			body: JSON.stringify({ username, email, password })
 		})
 			.then(res => res.json())
 			.then(data => {
 				console.log(data);
 				if (data.success) {
-					// add toasts to confirm registration
-					//toast.success(data.message);
-					// redirect to login page
-					//router.push('/login');
+					toast.success(data.message);
+					router.push("/login");
 
-					console.log('Register ok!');
+					//console.log('Register ok!');
 				} else {
-					(data.message); alert
+					toast.error(data.message);
 
-					console.log('Register failed!');
+					//console.log('Register failed!');
 				}
 			})
 			.catch(err => console.log(err));
 
-		//router.push('/home');
-
-		console.log('Submitted!');
+		//console.log('Submitted!');
 	}
 
 	return (
@@ -54,7 +55,7 @@ export const SignupForm = ({ toggleSignup }: SignupFormProps) => {
 			<h2 className="form-title">Inscription</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
-					<label className="form-label">Nom d'utilisateur :</label>
+					<label className="form-label">Nom d utilisateur :</label>
 					<input className="form-input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
 				</div>
 				<div>
