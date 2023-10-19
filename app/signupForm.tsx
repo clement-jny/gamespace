@@ -1,6 +1,8 @@
 import { use, useState } from 'react';
 import './styles.css';
 
+// CHECK HERE IF 'PASSWORD' & 'PASSWORDCONFIRM' ARE THE SAME //
+
 
 //RENAME 'REGISTERFORM'
 interface SignupFormProps {
@@ -11,9 +13,8 @@ interface SignupFormProps {
 export const SignupForm = ({ toggleSignup }: SignupFormProps) => {
 	const [username, setUsername] = useState('aa');
 	const [email, setEmail] = useState('aa@aa.fr');
-	const [password, setPassword] = useState('aa');
-	const [lastname, setLastname] = useState('aa');
-	const [firstname, setFirstname] = useState('aa');
+	const [password, setPassword] = useState('aaaaaaaa');
+	const [passwordConfirm, setPasswordConfirm] = useState('aaaaaaaa');
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -23,17 +24,20 @@ export const SignupForm = ({ toggleSignup }: SignupFormProps) => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ username: username, email: email, password: password, lastname: lastname, firstname: firstname })
+			body: JSON.stringify({ username: username, email: email, password: password, passwordConfirm: passwordConfirm })
 		})
 			.then(res => res.json())
 			.then(data => {
 				console.log(data);
-				if (data.status === 'success') {
-					//localStorage.setItem('username', data.user.username);
+				if (data.success) {
+					// add toasts to confirm registration
+					//toast.success(data.message);
+					// redirect to login page
+					//router.push('/login');
 
 					console.log('Register ok!');
 				} else {
-					alert(data.message);
+					(data.message); alert
 
 					console.log('Register failed!');
 				}
@@ -60,6 +64,10 @@ export const SignupForm = ({ toggleSignup }: SignupFormProps) => {
 				<div>
 					<label className="form-label">Mot de passe :</label>
 					<input className="form-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+				</div>
+				<div>
+					<label className="form-label">Confirmer mot de passe :</label>
+					<input className="form-input" type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
 				</div>
 
 				<button type='submit' className="form-button">S inscrire</button>

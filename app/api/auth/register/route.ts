@@ -1,33 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '../../db/prisma';
+import { db } from '@/lib/prisma';
 import { Prisma, User } from '@prisma/client';
-import { hash } from 'bcryptjs'
+import { hash } from 'bcryptjs';
+import { sendResponse } from '@/lib/helpers';
 
 /* REGISTER THE USER */
 export const POST = async (request: NextRequest) => {
 	try {
-		const { email, password, username, lastname, firstname }: User = await request.json();
+		const { username, email, password }: User = await request.json();
 		const hashedPassword = await hash(password, 12);
 
 		const user = await db.user.create({
 			data: {
-				email: email,
-				password: hashedPassword,
 				username: username,
-				lastname: lastname,
-				firstname: firstname
+				email: email,
+				password: hashedPassword
 			}
 		});
 
-		return NextResponse.json({ status: 'success', user },
-			{
-				status: 201,
-				headers: { 'Content-Type': 'application/json' }
-			}
-		);
+		return sendResponse(true, 'Successfully registered', 201);
 	} catch (error) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			return NextResponse.json({ status: 'error', error: 'Error creating user' }, { status: 500 });
+			return NextResponse.json({ success: false, error: 'Error creating user' }, { status: 500 });
 		} else {
 			console.error(error)
 		}
