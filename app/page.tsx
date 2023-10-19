@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
-import LoginForm from './loginForm';
-import SignupForm from './signupForm';
+import { LoginForm } from './loginForm';
+import { SignupForm } from './signupForm';
 
 export default function Home() {
 	const [showSignup, setShowSignup] = useState(false);
