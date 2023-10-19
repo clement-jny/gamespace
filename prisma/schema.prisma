@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model User {
+    id String @id @unique @default(uuid())
+
+    email    String @unique
+    password String
+    username String @unique
+
+    address  Address?
+    products Product[]
+}
+
+model Address {
+    id String @id @unique @default(uuid())
+
+    street  String
+    city    String
+    zipCode String
+
+    userId String @unique
+    user   User   @relation(fields: [userId], references: [id])
+}
+
+model Product {
+    id String @id @unique @default(uuid())
+
+    title       String
+    description String
+    price       Float
+    createdAt   DateTime @default(now())
+
+    platform         Platform
+    productCondition ProductCondition
+
+    images Image[]
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    @@index([userId])
+}
+
+enum Platform {
+    PLAYSTATION
+    XBOX
+    NINTENDO
+}
+
+enum ProductCondition {
+    MINT
+    GOOD
+    POOR
+}
+
+model Image {
+    id String @id @unique @default(uuid())
+
+    url String @unique
+
+    productId String
+    product   Product @relation(fields: [productId], references: [id])
+
+    @@index([productId])
+}
