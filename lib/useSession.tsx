@@ -1,33 +1,30 @@
 
-'use client'
-import { useState, useEffect } from 'react';
-import Cookies from 'universal-cookie';
-import { verifyJwtToken, verifyJWT } from '@/lib/token';
-import { JWTPayload } from 'jose';
+'use client';
+
+import { useEffect } from 'react';
+import { apiGetAuthUser } from './api-requests';
+import useStore from '@/store';
 
 export const useSession = () => {
-	const getVerifiedtoken = async () => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
+	const store = useStore();
 
-		console.log('token => ', token);
-
-
-
-
-
-		const verifiedToken = await verifyJwtToken(token);
-
-		console.log(verifiedToken);
-		// const verifiedToken = await verifyJWT(token);
-		// console.log('verifiedToken => ', verifiedToken);
-
-		// setAuth(verifiedToken);
-	};
+	const fetchUser = async () => {
+		try {
+			const user = await apiGetAuthUser();
+			store.setAuthUser(user);
+		}
+		catch (error) {
+			store.reset();
+		}
+	}
 
 	useEffect(() => {
-		getVerifiedtoken();
+		if (!store.authUser) {
+			fetchUser();
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	return true;
+	return store.authUser;
 }

@@ -12,14 +12,16 @@
 		"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^3.3.2",
 		"@prisma/client": "^5.4.2",
 		"bcryptjs": "^2.4.3",
 		"jose": "^4.15.4",
 		"next": "13.5.4",
 		"react": "^18",
 		"react-dom": "^18",
+		"react-hook-form": "^7.47.0",
 		"react-hot-toast": "^2.4.1",
-		"universal-cookie": "^6.1.1",
+		"tailwind-merge": "^1.14.0",
 		"zod": "^3.22.4",
 		"zustand": "^4.4.3"
 	},
