@@ -1,4 +1,4 @@
-export interface FilteredUser {
+export type User = {
 	id: string;
 	email: string;
 	password: string;
@@ -6,13 +6,13 @@ export interface FilteredUser {
 	address: Address;
 	products: Product[];
 }
-export interface Address {
+export type Address = {
 	id: string;
 	street: string;
 	city: string;
 	zipCode: string;
 }
-export interface Product {
+export type Product = {
 	id: string;
 	title: string;
 	description: string;
@@ -23,81 +23,14 @@ export interface Product {
 }
 export type Platform = 'PLAYSTATION' | 'XBOX' | 'NINTENDO';
 export type ProductCondition = 'MINT' | 'GOOD' | 'POOR';
-export interface Image {
+
+export type Image = {
 	id: string;
 	url: string;
 }
 
-export interface UserResponse {
-	status: string;
-	data: {
-		user: FilteredUser;
-	};
+
+export type ApiResponse = {
+	success: boolean;
+	message: string;
 }
-
-export interface UserLoginResponse {
-	status: string;
-	token: string;
-}
-
-
-
-// export type AuthUser = {
-// 	id: string;
-// 	username: string;
-// 	email: string;
-// 	password: string;
-// }
-// export interface UserResponse {
-// 	status: string;
-// 	data: {
-// 		user: AuthUser;
-// 	};
-// }
-
-// export interface UserLoginResponse {
-// 	status: string;
-// 	token: string;
-// }
-
-
-//---------------------------------------------
-// export type User = {
-// 	username: string;
-// 	email: string;
-// 	password: string;
-// 	address: Address;
-// 	products: Product[];
-// }
-// export type Address = {
-// 	street: string;
-// 	city: string;
-// 	zipCode: string;
-// }
-// export type Product = {
-// 	title: string;
-// 	description: string;
-// 	price: number;
-// 	images: Image[];
-// 	platform: Platform;
-// 	condition: ProductCondition;
-// }
-// export type Platform = 'PLAYSTATION' | 'XBOX' | 'NINTENDO';
-// export type ProductCondition = 'MINT' | 'GOOD' | 'POOR'
-
-// export type Image = {
-// 	url: string;
-// }
-//---------------------------------------------
-
-// export type UserResponse = {
-// 	status: string;
-// 	data: {
-// 		user: AuthUser;
-// 	};
-// }
-
-// export type UserLoginResponse = {
-// 	status: string;
-// 	token: string;
-// }

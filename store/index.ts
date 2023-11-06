@@ -1,12 +1,12 @@
 'use client';
 
-import { FilteredUser } from '@/lib/types';
+import { User } from '@/lib/types';
 import { create } from 'zustand';
 
 type Store = {
-	authUser: FilteredUser | null;
+	authUser: User | null;
 	requestLoading: boolean;
-	setAuthUser: (user: FilteredUser | null) => void;
+	setAuthUser: (user: User | null) => void;
 	setRequestLoading: (isLoading: boolean) => void;
 	reset: () => void;
 };

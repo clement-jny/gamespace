@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../db/prisma';
 import { Prisma, Product } from '@prisma/client';
 
+//TODO: redo this file
+
 type RouteProps = {
 	params: {
 		id: number;

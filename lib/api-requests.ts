@@ -1,24 +1,8 @@
-import { FilteredUser, UserLoginResponse, UserResponse } from './types';
+import { User, ApiResponse } from './types';
 
 const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || 'http://localhost:3000';
 
-async function handleResponse<T>(response: Response): Promise<T> {
-	const contentType = response.headers.get('Content-Type') || '';
-	const isJson = contentType.includes('application/json');
-	const data = isJson ? await response.json() : await response.text();
-
-	if (!response.ok) {
-		if (isJson && data.errors !== null) {
-			throw new Error(JSON.stringify(data.errors));
-		}
-
-		throw new Error(data.message || response.statusText);
-	}
-
-	return data as T;
-}
-
-export const apiRegisterUser = async (credentials: string): Promise<FilteredUser> => {
+export const apiRegisterUser = async (credentials: string): Promise<ApiResponse> => {
 	const response = await fetch(`${SERVER_ENDPOINT}/api/auth/register`, {
 		method: 'POST',
 		credentials: 'include',
@@ -28,10 +12,11 @@ export const apiRegisterUser = async (credentials: string): Promise<FilteredUser
 		body: credentials
 	});
 
-	return handleResponse<UserResponse>(response).then((data) => data.data.user);
+	return await response.json();
 }
 
-export const apiLoginUser = async (credentials: string): Promise<string> => {
+
+export const apiLoginUser = async (credentials: string): Promise<ApiResponse> => {
 	const response = await fetch(`${SERVER_ENDPOINT}/api/auth/login`, {
 		method: 'POST',
 		credentials: 'include',
@@ -41,11 +26,23 @@ export const apiLoginUser = async (credentials: string): Promise<string> => {
 		body: credentials
 	});
 
-	return handleResponse<UserLoginResponse>(response).then((data) => data.token);
+	return await response.json();
+
 }
 
-export const apiLogoutUser = async (): Promise<void> => {
+export const apiLogoutUser = async (): Promise<ApiResponse> => {
 	const response = await fetch(`${SERVER_ENDPOINT}/api/auth/logout`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		}
+	});
+
+	return await response.json();
+}
+
+export const apiGetAuthUser = async (): Promise<ApiResponse> => {
+	const response = await fetch(`${SERVER_ENDPOINT}/api/users/me`, {
 		method: 'GET',
 		credentials: 'include',
 		headers: {
@@ -53,23 +50,5 @@ export const apiLogoutUser = async (): Promise<void> => {
 		}
 	});
 
-	return handleResponse<void>(response);
-}
-
-export const apiGetAuthUser = async (token?: string): Promise<FilteredUser> => {
-	const headers: Record<string, string> = {
-		'Content-Type': 'application/json'
-	};
-
-	if (token) {
-		headers['Authorization'] = `Bearer ${token}`;
-	}
-
-	const response = await fetch(`${SERVER_ENDPOINT}/api/users/me`, {
-		method: 'GET',
-		credentials: 'include',
-		headers
-	});
-
-	return handleResponse<UserResponse>(response).then((data) => data.data.user);
+	return await response.json();
 }
