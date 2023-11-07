@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import { Prisma, User } from '@prisma/client';
 
-//TODO: redo this file
+//TODO: refactor
 
 /* GET ALL USERS */
 export const GET = async (request: NextRequest) => {

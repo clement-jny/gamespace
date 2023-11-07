@@ -5,12 +5,15 @@ import { useState } from 'react';
 export const ProfileInfo = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [userInfo, setUserInfo] = useState({
-		email: 'user@example.com',
 		username: 'username123',
 		password: '********',
 		firstname: 'John',
 		lastname: 'Doe',
 	});
+
+
+
+
 
 	const handleEdit = () => {
 		setIsEditing(true);
@@ -26,13 +29,6 @@ export const ProfileInfo = () => {
 			<h2 className='text-lg font-semibold mb-4'>Informations de base</h2>
 			{isEditing ? (
 				<div>
-
-					<input
-						type='text'
-						value={userInfo.email}
-						onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-						className='w-full p-2 mb-2 border rounded-lg'
-					/>
 					<input
 						type='text'
 						value={userInfo.username}
@@ -66,7 +62,6 @@ export const ProfileInfo = () => {
 				</div>
 			) : (
 				<div>
-					<p><strong>Email :</strong> {userInfo.email}</p>
 					<p><strong>Nom d utilisateur :</strong> {userInfo.username}</p>
 					<p><strong>Mot de passe :</strong> {userInfo.password}</p>
 					<p><strong>Prénom :</strong> {userInfo.firstname}</p>

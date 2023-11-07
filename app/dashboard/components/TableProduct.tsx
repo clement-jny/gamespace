@@ -1,5 +1,3 @@
-'use client';
-
 import { ProductInfo } from './ProductInfo';
 
 const productsData = [

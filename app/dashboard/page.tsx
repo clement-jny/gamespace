@@ -2,16 +2,39 @@ import { ProfileInfo } from './components/ProfileInfo';
 import { AddressInfo } from './components/AddressInfo';
 import { ProductInfo } from './components/ProductInfo';
 import { TableProduct } from './components/TableProduct';
-// import { apiGetAuthUser } from '@/lib/api-requests';
-import { cookies } from 'next/headers';
-import { AuthPageInvisible } from '@/lib/protect-page';
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/authOptions";
+
+
+type User = {
+	id: string;
+	password: string;
+	username: string;
+}
+
+async function getData() {
+	const session = await getServerSession(authOptions);
+	// console.log("dash : " + JSON.stringify(session));
+	// console.log(JSON.stringify(session?.user))
+
+	const response = await fetch('http://localhost:3000/api/users/me', {
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(session?.user)
+	});
+
+	return await response.json();
+}
 
 const Dashboard = async () => {
-	const cookieStore = cookies();
-	const token = cookieStore.get('token');
-	console.log(token);
+	const data = await getData();
+	console.log(data);
 
-	// const user = await apiGetAuthUser(token?.value);
+
 
 	return (
 		<main className='grow flex items-center justify-center'>
@@ -31,7 +54,6 @@ const Dashboard = async () => {
 					</div>
 				</div>
 			</section> */}
-			<AuthPageInvisible />
 
 			<div className='container mx-auto p-4'>
 				<div className='flex items-center space-x-2'>
@@ -40,11 +62,11 @@ const Dashboard = async () => {
 							<span className='text-xl'>JO</span>
 						</div>
 					</div>
-					<h1 className='text-2xl font-semibold mb-4 mt-5'> Username </h1>
+					<h1 className='text-2xl font-semibold mb-4 mt-5'>Hello {data.user.username}</h1>
 				</div>
 
-				{/* <ProfileInfo /> */}
-				{/* <AddressInfo /> */}
+				<ProfileInfo />
+				<AddressInfo />
 				<h2 className='text-2xl font-semibold mb-2 mt-4 text-center'> Articles mis en ventes</h2>
 				{/* <TableProduct /> */}
 			</div>

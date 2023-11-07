@@ -1,6 +1,5 @@
 export type User = {
 	id: string;
-	email: string;
 	password: string;
 	username: string;
 	address: Address;
@@ -29,8 +28,9 @@ export type Image = {
 	url: string;
 }
 
-
+// TODO: user on type
 export type ApiResponse = {
 	success: boolean;
 	message: string;
+	user?: {};
 }

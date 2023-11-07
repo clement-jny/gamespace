@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import image from '@/public/images/rocket-game.jpg';
 
 type Product = {
 	id: string,
@@ -32,8 +31,10 @@ export const ProductInfo = ({ id, title, description, platform, productCondition
 				<div className='bg-white p-4 rounded-lg shadow-md mt-2 flex'>
 					<figure>
 						<Image
-							src={image}
+							src='/images/rocket_game.jpg'
 							className='w-36 h-36 object-cover flex'
+							width={500}
+							height={500}
 							alt='jeu'
 						/>
 					</figure>

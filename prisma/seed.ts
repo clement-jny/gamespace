@@ -2,15 +2,11 @@ import { db } from '../lib/prisma';
 import { hash } from 'bcryptjs';
 
 (async () => {
-	// await db.image.deleteMany({});
-	// await db.product.deleteMany({});
-	// await db.address.deleteMany({});
 	await db.user.deleteMany({});
 
 	await db.user.create({
 		data: {
 			username: 'victor',
-			email: 'victor@gs.com',
 			password: await hash('victor', 12),
 			address: {
 				create: {
@@ -57,7 +53,6 @@ import { hash } from 'bcryptjs';
 	await db.user.create({
 		data: {
 			username: 'julien',
-			email: 'julien@gs.com',
 			password: await hash('julien', 12),
 			address: {
 				create: {
@@ -104,7 +99,6 @@ import { hash } from 'bcryptjs';
 	await db.user.create({
 		data: {
 			username: 'clement',
-			email: 'clement@gs.com',
 			password: await hash('clement', 12),
 			address: {
 				create: {

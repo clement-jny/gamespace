@@ -1,35 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendResponse } from '@/lib/helpers';
+// import { sendResponse } from '@/lib/helpers';
 import { db } from '@/lib/prisma';
-import { verifyJWT } from '@/lib/token';
+// import { verifyJWT } from '@/lib/token';
 
-export const GET = async (request: NextRequest) => {
-	const token = request.cookies.get('token')?.value;
+export const POST = async (request: NextRequest) => {
+	const body = await request.json();
+	const { id } = body;
 
-	try {
-		if (token) {
-			const { userId } = await verifyJWT<{ userId: string }>(token);
-
-			console.log(userId);
-
-			const user = await db.user.findUniqueOrThrow({
-				where: {
-					id: userId
-				},
-				include: {
-					products: true,
-					address: true
-				}
-			});
-
-			// return sendResponse(true, 'Successfully returned ME', 200);
-			return NextResponse.json({ success: true, message: 'Successfully returned ME', data: { user } });
-		} else {
-			return sendResponse(false, 'No Token', 401);
+	const user = await db.user.findUnique({
+		where: {
+			id
 		}
-	} catch (error) {
-		return sendResponse(false, 'User doesn\'t exists', 401);
-	}
+	});
+
+	return NextResponse.json({ user, message: 'User' }, { status: 200 });
+
+	// try {
+	// 	if (token) {
+	// 		const { userId } = await verifyJWT<{ userId: string }>(token);
+
+	// 		console.log(userId);
+
+	// 		const user = await db.user.findUniqueOrThrow({
+	// 			where: {
+	// 				id: userId
+	// 			},
+	// 			include: {
+	// 				products: true,
+	// 				address: true
+	// 			}
+	// 		});
+
+	// 		// return sendResponse(true, 'Successfully returned ME', 200);
+	// 		return NextResponse.json({ success: true, message: 'Successfully returned ME', data: { user } });
+	// 	} else {
+	// 		return sendResponse(false, 'No Token', 401);
+	// 	}
+	// } catch (error) {
+	// 	return sendResponse(false, 'User doesn\'t exists', 401);
+	// }
 
 	// const userId = request.headers.get("X-USER-ID");
 
