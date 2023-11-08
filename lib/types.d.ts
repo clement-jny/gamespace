@@ -1,3 +1,5 @@
+//TODO: find where to use these types
+
 export type User = {
 	id: string;
 	password: string;
@@ -28,9 +30,8 @@ export type Image = {
 	url: string;
 }
 
-// TODO: user on type
 export type ApiResponse = {
 	success: boolean;
 	message: string;
-	user?: {};
+	data?: { user: User } | undefined;
 }

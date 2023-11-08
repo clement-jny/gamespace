@@ -5,35 +5,24 @@ import { TableProduct } from './components/TableProduct';
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/authOptions";
+import { apiGetAuthUser } from '@/lib/apiRequests';
 
 
-type User = {
-	id: string;
-	password: string;
-	username: string;
-}
+// type User = {
+// 	id: string;
+// 	password: string;
+// 	username: string;
+// }
 
-async function getData() {
-	const session = await getServerSession(authOptions);
-	// console.log("dash : " + JSON.stringify(session));
-	// console.log(JSON.stringify(session?.user))
 
-	const response = await fetch('http://localhost:3000/api/users/me', {
-		method: 'POST',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(session?.user)
-	});
-
-	return await response.json();
-}
-
+//TODO: get the auth user by the username in the cookie and get all infos (address, products, etc...)
+//TODO: fix TableProduct component
 const Dashboard = async () => {
-	const data = await getData();
-	console.log(data);
+	const session = await getServerSession(authOptions);
+	const response = await apiGetAuthUser(JSON.stringify(session?.user!));
 
+	const user = response.success && response.data && response.data.user;
+	console.log(user);
 
 
 	return (
@@ -62,7 +51,7 @@ const Dashboard = async () => {
 							<span className='text-xl'>JO</span>
 						</div>
 					</div>
-					<h1 className='text-2xl font-semibold mb-4 mt-5'>Hello {data.user.username}</h1>
+					<h1 className='text-2xl font-semibold mb-4 mt-5'>Hello { }</h1>
 				</div>
 
 				<ProfileInfo />

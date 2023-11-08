@@ -1,5 +1,7 @@
 import { ProductInfo } from './ProductInfo';
 
+//TODO: refactor to use Product model from db
+
 const productsData = [
 	{
 		id: "1",

@@ -1,52 +1,36 @@
-import { NextRequest, NextResponse } from 'next/server';
-// import { sendResponse } from '@/lib/helpers';
+import { NextRequest } from 'next/server';
 import { db } from '@/lib/prisma';
-// import { verifyJWT } from '@/lib/token';
+import { sendErrorResponse, sendSuccessResponse } from '@/lib/helpers';
 
+//TODO: include products and address
 export const POST = async (request: NextRequest) => {
-	const body = await request.json();
-	const { username } = body;
+	try {
+		const body = await request.json();
+		const { username } = body;
 
-	const user = await db.user.findUnique({
-		where: {
-			username
+		const user = await db.user.findUnique({
+			where: {
+				username
+			},
+			// include: {
+			// 	products: true,
+			// 	address: true
+			// }
+		});
+
+		if (!user) {
+			return sendErrorResponse('User doesn\'t exists', 400);
 		}
-	});
 
-	return NextResponse.json({ user, message: 'User' }, { status: 200 });
-
-	// try {
-	// 	if (token) {
-	// 		const { userId } = await verifyJWT<{ userId: string }>(token);
-
-	// 		console.log(userId);
-
-	// 		const user = await db.user.findUniqueOrThrow({
-	// 			where: {
-	// 				id: userId
-	// 			},
-	// 			include: {
-	// 				products: true,
-	// 				address: true
-	// 			}
-	// 		});
-
-	// 		// return sendResponse(true, 'Successfully returned ME', 200);
-	// 		return NextResponse.json({ success: true, message: 'Successfully returned ME', data: { user } });
-	// 	} else {
-	// 		return sendResponse(false, 'No Token', 401);
-	// 	}
-	// } catch (error) {
-	// 	return sendResponse(false, 'User doesn\'t exists', 401);
-	// }
-
-	// const userId = request.headers.get("X-USER-ID");
-
-	// if (!userId) {
-	// 	return sendResponse(false, 'You are not logged in, please provide token to gain access', 401);
-	// }
-
-	// const user = await db.user.findUnique({ where: { id: userId } });
-
-	// return sendResponse(true, 'Successfully returned ME', 200);
+		return sendSuccessResponse('User exists', 200, { user });
+		// return sendSuccessResponse('User exists', 200, { user: { ...user, id: undefined, password: undefined } });
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			// Gérer les autres erreurs génériques
+			return sendErrorResponse(`Error: ${error.message}`, 500);
+		} else {
+			// Gérer les erreurs inattendues
+			return sendErrorResponse('An unexpected error occurred', 500);
+		}
+	}
 }

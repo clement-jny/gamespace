@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Loading = () => {
 	return (
 		<main className='grow flex items-center justify-center'>

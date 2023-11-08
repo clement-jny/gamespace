@@ -1,5 +1,7 @@
 'use client';
 
+//TODO: refactor to use Product model from db
+
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 

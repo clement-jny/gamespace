@@ -5,8 +5,6 @@ import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/FormInput';
 import Link from 'next/link';
-import { LoadingButton } from '@/components/LoadingButton';
-import { toast } from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 
 export const LoginForm = () => {
@@ -31,7 +29,7 @@ export const LoginForm = () => {
 				<FormInput label='Password' name='password' type='password' />
 
 				<div className='form-control w-full'>
-					{/* <LoadingButton loading={store.requestLoading}>Login</LoadingButton> */}
+
 					<button type='submit' className='btn btn-primary'>Login</button>
 
 					<p className='mt-4'>Need an account ?

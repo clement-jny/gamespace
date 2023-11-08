@@ -1,22 +1,18 @@
-import { LoadingButton } from "@/components/LoadingButton";
-import { authOptions } from "@/lib/auth/authOptions";
-import { getServerSession } from "next-auth/next"
+import { authOptions } from '@/lib/auth/authOptions';
+import { getServerSession } from 'next-auth/next'
 
-
-// TODO: do home page
 const Home = async () => {
 	const session = await getServerSession(authOptions)
 
 	return (
-		<main className='grow flex items-center justify-center'>
+		<main className='grow'> {/* flex items-center justify-center */}
 			<p>Home page</p>
 
+			{/* TODO: do the home page, get the 10 first new products and show them */}
 			<div>
 				{session ? (
-					<>
-						<p>Connected</p>
-						{JSON.stringify(session)}
-					</>
+					<p>Connected</p>
+
 				) : (
 					<p>Not connected</p>
 				)}

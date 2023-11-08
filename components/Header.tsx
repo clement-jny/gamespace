@@ -1,17 +1,10 @@
-'use client';
-
 import Link from 'next/link';
-import Image from 'next/image';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth/authOptions';
+import { LogLinks } from './LogLinks';
 
-// import { apiLogoutUser } from '@/lib/api-requests';
-// import { useRouter } from 'next/navigation';
-import { useSession, signIn, signOut } from 'next-auth/react';
-
-export const Header = () => {
-	// const router = useRouter();
-	const { data: session } = useSession();
-	// console.log(session);
-	// console.log(JSON.stringify(session));
+export const Header = async () => {
+	const session = await getServerSession(authOptions);
 
 	return (
 		<header>
@@ -30,23 +23,9 @@ export const Header = () => {
 					<div className='navbar-end'>
 						{
 							session && session.user ? (
-								<div className='dropdown dropdown-end'>
-									<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-										<div className='w-10 rounded-full'>
-											<Image
-												src='/images/default.jpg'
-												width={500}
-												height={500}
-												alt='Default user picture'
-											/>
-										</div>
-									</label>
-									<ul tabIndex={0} className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
-										<li><Link href='/dashboard'>Dashboard</Link></li>
-										{/* <li><Link href='/logout'>Logout</Link></li> */}
-										<li onClick={() => signOut()}>Logout</li>
-									</ul>
-								</div>
+								<>
+									<LogLinks user={session.user} />
+								</>
 							) : (
 								<ul className='menu menu-horizontal px-1'>
 									<li><Link href='/login'>Login</Link></li>

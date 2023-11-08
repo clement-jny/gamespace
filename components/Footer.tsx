@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+//TODO: remove Company and Legal sections
+
 export const Footer = () => {
 	return (
 		<footer className='footer p-10 bg-base-300 text-base-content sticky top-[100vh]'>

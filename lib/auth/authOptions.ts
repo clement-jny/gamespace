@@ -3,8 +3,10 @@ import { compare } from 'bcryptjs';
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { LoginUserInput, LoginUserSchema } from '../validations/user.schema';
-import { apiRegisterUser } from '../apiRequests';
+import { apiLoginUser, apiRegisterUser } from '../apiRequests';
+import { ApiResponse } from '../types';
 
+//TODO: remove unused imports
 export const authOptions: NextAuthOptions = {
 	secret: process.env.NEXTAUTH_SECRET,
 	pages: {
@@ -21,24 +23,23 @@ export const authOptions: NextAuthOptions = {
 				password: {}
 			},
 			async authorize(credentials, req) {
-				// const data = await apiRegisterUser(JSON.stringify(credentials));
+				const { success, data, message } = await apiLoginUser(JSON.stringify(credentials));
 
-				const response = await fetch('http://localhost:3000/api/auth/login', {
-					method: 'POST',
-					credentials: 'include',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(credentials)
-				});
+				//TODO: verify user
 
-				const data = await response.json();
+				// console.log(success, data, message);
 
-				if (!data || !data.user) {
-					return null;
-				}
 
-				return data.user;
+				// if (!success || !data) {
+				// 	return null;
+				// }
+
+				// return data.user;
+
+
+
+				return data?.user || null;
+
 			}
 		})
 	],

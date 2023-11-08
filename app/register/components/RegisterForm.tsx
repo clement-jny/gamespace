@@ -6,9 +6,7 @@ import Link from 'next/link';
 import { RegisterUserInput, RegisterUserSchema } from '@/lib/validations/user.schema';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
 import { FormInput } from '@/components/FormInput';
-import { LoadingButton } from '@/components/LoadingButton';
 import { apiRegisterUser } from '@/lib/apiRequests';
 
 export const RegisterForm = () => {
@@ -20,16 +18,15 @@ export const RegisterForm = () => {
 
 	const { handleSubmit } = methods;
 
-
 	const onSubmitHandler: SubmitHandler<RegisterUserInput> = async (values) => {
-		const data = await apiRegisterUser(JSON.stringify(values));
+		const { success, message } = await apiRegisterUser(JSON.stringify(values));
 
-		if (data.success) {
-			toast.success(data.message);
+		if (success) {
+			toast.success(message);
 
 			router.push('/login');
 		} else {
-			toast.error(data.message);
+			toast.error(message);
 		}
 	};
 
@@ -41,7 +38,6 @@ export const RegisterForm = () => {
 				<FormInput label='Confirm Password' name='passwordConfirm' type='password' />
 
 				<div className='form-control w-full'>
-					{/* <LoadingButton loading={store.requestLoading}>Register</LoadingButton> */}
 					<button type='submit' className='btn btn-primary'>Register</button>
 
 					<p className='mt-4'>Already have an account ?

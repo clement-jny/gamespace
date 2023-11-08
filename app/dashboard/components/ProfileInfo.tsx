@@ -1,5 +1,7 @@
 'use client';
 
+//TODO: refactor to use User model from db
+
 import { useState } from 'react';
 
 export const ProfileInfo = () => {

@@ -28,13 +28,15 @@ export const apiLoginUser = async (credentials: string): Promise<ApiResponse> =>
 	return await response.json();
 }
 
-export const apiGetAuthUser = async (credentials: string): Promise<ApiResponse> => {
+//TODO:user ? username?
+export const apiGetAuthUser = async (user: string): Promise<ApiResponse> => {
 	const response = await fetch(`${BASE_URL}/api/users/me`, {
-		method: 'GET',
+		method: 'POST',
 		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json',
-		}
+		},
+		body: user
 	});
 
 	return await response.json();
