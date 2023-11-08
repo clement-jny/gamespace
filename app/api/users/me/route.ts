@@ -5,11 +5,11 @@ import { db } from '@/lib/prisma';
 
 export const POST = async (request: NextRequest) => {
 	const body = await request.json();
-	const { id } = body;
+	const { username } = body;
 
 	const user = await db.user.findUnique({
 		where: {
-			id
+			username
 		}
 	});
 

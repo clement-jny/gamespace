@@ -10,8 +10,8 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 export const Header = () => {
 	// const router = useRouter();
 	const { data: session } = useSession();
-	console.log(session);
-	console.log(JSON.stringify(session));
+	// console.log(session);
+	// console.log(JSON.stringify(session));
 
 	return (
 		<header>
