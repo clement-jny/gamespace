@@ -1,11 +1,9 @@
-import { RegisterForm } from "./components/RegisterForm";
+import { RegisterForm } from './components/RegisterForm';
 
-const Register = () => {
+const Register = async () => {
 	return (
-		<main className='flex flex-col justify-center items-center'>
-			<div className='w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl'>
-				<h2 className='text-3xl font-semibold text-center'>Register</h2>
-
+		<main className='grow flex items-center justify-center'>
+			<div className='w-full py-10'>
 				<RegisterForm />
 			</div>
 		</main>

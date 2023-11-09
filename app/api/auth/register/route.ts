@@ -1,29 +1,44 @@
 import { NextRequest } from 'next/server';
 import { db } from '@/lib/prisma';
-import { Prisma, User } from '@prisma/client';
 import { hash } from 'bcryptjs';
-import { sendResponse } from '@/lib/helpers';
+import { RegisterUserInput, RegisterUserSchema } from '@/lib/validations/user.schema';
+import { ZodError } from 'zod';
+import { sendSuccessResponse, sendErrorResponse } from '@/lib/helpers';
 
-/* REGISTER THE USER */
 export const POST = async (request: NextRequest) => {
 	try {
-		const { username, email, password }: User = await request.json();
+		const body = (await request.json()) as RegisterUserInput;
+		const { username, password } = RegisterUserSchema.parse(body);
+
+		const user = await db.user.findUnique({
+			where: {
+				username
+			}
+		});
+
+		if (user) {
+			return sendErrorResponse('User already exists', 409);
+		}
+
 		const hashedPassword = await hash(password, 12);
 
 		await db.user.create({
 			data: {
-				username: username,
-				email: email,
+				username,
 				password: hashedPassword
 			}
 		});
 
-		return sendResponse(true, 'Successfully registered', 201);
-	} catch (error) {
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			return sendResponse(false, 'Error creating user', 500);
+		return sendSuccessResponse('User created successfully', 201);
+	} catch (error: unknown) {
+		if (error instanceof ZodError) {
+			return sendErrorResponse('Validation failed', 400);
+		} else if (error instanceof Error) {
+			// Gérer les autres erreurs génériques
+			return sendErrorResponse(`Error: ${error.message}`, 500);
 		} else {
-			console.error(error)
+			// Gérer les erreurs inattendues
+			return sendErrorResponse('An unexpected error occurred', 500);
 		}
 	}
 }

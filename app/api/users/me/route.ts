@@ -1,33 +1,34 @@
 import { NextRequest } from 'next/server';
-import { sendResponse } from '@/lib/helpers';
 import { db } from '@/lib/prisma';
-import { verifyJWT } from '@/lib/token';
+import { sendErrorResponse, sendSuccessResponse } from '@/lib/helpers';
 
-export const GET = async (request: NextRequest) => {
-	let token: string | undefined;
-
-	if (request.cookies.has('token')) {
-		token = request.cookies.get('token')?.value;
-	}
-
+export const POST = async (request: NextRequest) => {
 	try {
-		if (token) {
-			const { sub } = await verifyJWT<{ sub: string }>(token);
+		const body = await request.json();
+		const { username } = body;
 
-			console.log(sub);
+		const user = await db.user.findUnique({
+			where: {
+				username
+			},
+			include: {
+				products: true,
+				address: true
+			}
+		});
 
-
-			const user = await db.user.findUniqueOrThrow({
-				where: {
-					username: sub
-				}
-			});
-
-			return sendResponse(true, 'Successfully returned ME', 200, { user: { ...user, password: undefined } });
-		} else {
-			return sendResponse(false, 'No Token', 401);
+		if (!user) {
+			return sendErrorResponse('User doesn\'t exists', 400);
 		}
-	} catch (error) {
-		return sendResponse(false, 'User doesn\'t exists', 401);
+
+		return sendSuccessResponse('User exists', 200, { user: { ...user, id: undefined, password: undefined } });
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			// Gérer les autres erreurs génériques
+			return sendErrorResponse(`Error: ${error.message}`, 500);
+		} else {
+			// Gérer les erreurs inattendues
+			return sendErrorResponse('An unexpected error occurred', 500);
+		}
 	}
 }

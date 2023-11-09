@@ -1,72 +1,42 @@
-/* eslint-disable react/no-unescaped-entities */
 'use client';
 
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import { LoginUserInput, LoginUserSchema } from '@/lib/validations/user.schema';
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormInput } from '@/components/FormInput';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
 export const LoginForm = () => {
-	const router = useRouter();
+	const methods = useForm<LoginUserInput>({
+		resolver: zodResolver(LoginUserSchema),
+	});
 
-	const [email, setEmail] = useState('aa@aa.fr');
-	const [password, setPassword] = useState('aaaaaaaa');
+	const { handleSubmit } = methods;
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
-		fetch('http://localhost:3000/api/auth/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ email, password })
-		})
-			.then(res => res.json())
-			.then(data => {
-				console.log(data);
-				if (data.success) {
-					toast.success(data.message);
-					console.log('data.data.user => ', data.data.user);
-
-					router.push('/');
-
-					// console.log('Logged in!');
-				} else {
-					toast.error(data.message);
-
-					// console.log('Login failed!');
-				}
-			})
-			.catch(err => console.log(err));
-
-		// console.log('Submitted!');
-	}
+	const onSubmitHandler: SubmitHandler<LoginUserInput> = async (values) => {
+		await signIn('credentials', {
+			username: values.username,
+			password: values.password,
+			callbackUrl: '/',
+		});
+	};
 
 	return (
-		<form onSubmit={handleSubmit} className='space-y-6'>
+		<FormProvider {...methods}>
+			<form onSubmit={handleSubmit(onSubmitHandler)} className='max-w-md w-full mx-auto overflow-hidden shadow-lg rounded-2xl p-8 space-y-5'>
+				<FormInput label='Username' name='username' />
+				<FormInput label='Password' name='password' type='password' />
 
-			<div className='form-control w-full'>
-				<label className='label font-bold'>
-					<span className='label-text'>Email</span>
-				</label>
-				<input type='email' placeholder='Type here' className='input input-bordered w-full' value={email} onChange={(e) => setEmail(e.target.value)} />
-			</div>
+				<div className='form-control w-full'>
 
-			<div className='form-control w-full'>
-				<label className='label font-bold'>
-					<span className='label-text'>Password</span>
-				</label>
-				<input type='password' placeholder='Type here' className='input input-bordered w-full' value={password} onChange={(e) => setPassword(e.target.value)} />
-			</div>
+					<button type='submit' className='btn btn-primary'>Login</button>
 
-			<div className='form-control w-full'>
-				<button type='submit' className='btn btn-block btn-primary'>Submit</button>
-
-				<p className='mt-4'>Don't have an account ?
-					<Link href='/register' className='ml-2 text-primary hover:underline'>Register</Link>
-				</p>
-			</div>
-		</form>
+					<p className='mt-4'>Need an account ?
+						<Link href='/register' className='ml-2 text-primary hover:underline'>Register</Link>
+					</p>
+				</div>
+			</form>
+		</FormProvider>
 	)
 }
