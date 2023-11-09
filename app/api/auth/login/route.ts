@@ -20,7 +20,7 @@ export const POST = async (request: NextRequest) => {
 			return sendErrorResponse('Invalid username or password', 400);
 		}
 
-		return sendSuccessResponse('Successfully logged in', 200, { user });
+		return sendSuccessResponse('Successfully logged in', 200, { user: { ...user, id: undefined, password: undefined } });
 	} catch (error: unknown) {
 		if (error instanceof ZodError) {
 			return sendErrorResponse('Validation failed', 400);

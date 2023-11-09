@@ -1,4 +1,8 @@
-//TODO: find where to use these types
+export type ApiResponse = {
+	success: boolean;
+	message: string;
+	data?: { user: User } | undefined;
+}
 
 export type User = {
 	id: string;
@@ -28,10 +32,4 @@ export type ProductCondition = 'MINT' | 'GOOD' | 'POOR';
 export type Image = {
 	id: string;
 	url: string;
-}
-
-export type ApiResponse = {
-	success: boolean;
-	message: string;
-	data?: { user: User } | undefined;
 }

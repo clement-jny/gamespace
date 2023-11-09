@@ -6,24 +6,18 @@ import { TableProduct } from './components/TableProduct';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/authOptions";
 import { apiGetAuthUser } from '@/lib/apiRequests';
+import { User } from '@/lib/types';
 
 
-// type User = {
-// 	id: string;
-// 	password: string;
-// 	username: string;
-// }
-
-
-//TODO: get the auth user by the username in the cookie and get all infos (address, products, etc...)
-//TODO: fix TableProduct component
+//TODO: fix TableProduct component and refactor
 const Dashboard = async () => {
 	const session = await getServerSession(authOptions);
-	const response = await apiGetAuthUser(JSON.stringify(session?.user!));
+	const { success, data } = await apiGetAuthUser(JSON.stringify(session!.user!));
+	let user: User = {} as User;
 
-	const user = response.success && response.data && response.data.user;
-	console.log(user);
-
+	if (success && data) {
+		user = data.user;
+	}
 
 	return (
 		<main className='grow flex items-center justify-center'>
@@ -51,7 +45,7 @@ const Dashboard = async () => {
 							<span className='text-xl'>JO</span>
 						</div>
 					</div>
-					<h1 className='text-2xl font-semibold mb-4 mt-5'>Hello { }</h1>
+					<h1 className='text-2xl font-semibold mb-4 mt-5'>Hello {user.username}</h1>
 				</div>
 
 				<ProfileInfo />

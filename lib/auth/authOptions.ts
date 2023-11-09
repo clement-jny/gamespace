@@ -1,12 +1,7 @@
-import { db } from '../prisma';
-import { compare } from 'bcryptjs';
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { LoginUserInput, LoginUserSchema } from '../validations/user.schema';
-import { apiLoginUser, apiRegisterUser } from '../apiRequests';
-import { ApiResponse } from '../types';
+import { apiLoginUser } from '../apiRequests';
 
-//TODO: remove unused imports
 export const authOptions: NextAuthOptions = {
 	secret: process.env.NEXTAUTH_SECRET,
 	pages: {
@@ -23,28 +18,18 @@ export const authOptions: NextAuthOptions = {
 				password: {}
 			},
 			async authorize(credentials, req) {
-				const { success, data, message } = await apiLoginUser(JSON.stringify(credentials));
+				const { success, data } = await apiLoginUser(JSON.stringify(credentials));
 
-				//TODO: verify user
+				if (!success || !data) {
+					return null;
+				}
 
-				// console.log(success, data, message);
-
-
-				// if (!success || !data) {
-				// 	return null;
-				// }
-
-				// return data.user;
-
-
-
-				return data?.user || null;
-
+				return data.user;
 			}
 		})
 	],
 	callbacks: {
-		jwt: async ({ token, user, session }) => {
+		jwt: async ({ token, user }) => {
 			if (user) {
 				return {
 					...token,
@@ -54,7 +39,7 @@ export const authOptions: NextAuthOptions = {
 
 			return token;
 		},
-		session: async ({ session, token, user }) => {
+		session: async ({ session, token }) => {
 			return {
 				...session,
 				user: {
