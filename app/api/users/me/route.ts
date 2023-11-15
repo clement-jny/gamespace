@@ -12,7 +12,11 @@ export const POST = async (request: NextRequest) => {
 				username
 			},
 			include: {
-				products: true,
+				products: {
+					include: {
+						images: true
+					}
+				},
 				address: true
 			}
 		});
