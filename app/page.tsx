@@ -33,7 +33,7 @@ const Home = async () => {
 								</td>
 								<td>{product.title}</td>
 								<td>{product.description}</td>
-								<td>{product.platform} - {product.condition}</td>
+								<td>{product.platform} - {product.productCondition}</td>
 								<td>{product.price}€</td>
 							</tr>
 						))

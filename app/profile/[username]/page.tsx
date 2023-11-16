@@ -12,12 +12,11 @@ const Profile = async ({ params: { username } }: ProfileProps) => {
 	const { success, data, message } = await apiGetProfileUser(username);
 	let user;
 
-
 	if (success && data) {
 		user = data.user;
 	}
 
-	const NoUserFound = () => {
+	const UserNotFound = () => {
 		return (
 			<main className='grow flex justify-center items-center'>
 				<p>{message}</p>
@@ -31,12 +30,12 @@ const Profile = async ({ params: { username } }: ProfileProps) => {
 				<h1 className='text-3xl font-semibold m-5'>Profile of {user.username} !</h1>
 
 				<ProductsTable {...user.products} />
-			</main >
+			</main>
 		);
 	}
 
 	return (
-		{ ...user ? <UserFound {...user} /> : <NoUserFound /> }
+		{ ...user ? <UserFound {...user} /> : <UserNotFound /> }
 	);
 }
 
