@@ -1,22 +1,34 @@
-import { authOptions } from '@/lib/auth/authOptions';
-import { getServerSession } from 'next-auth/next'
-
 const Home = async () => {
-	const session = await getServerSession(authOptions)
-
 	return (
 		<main className='grow'> {/* flex items-center justify-center */}
-			<p>Home page</p>
+			<h1 className='text-3xl font-semibold m-5'>Here are the 10 last products</h1>
 
-			{/* TODO: do the home page, get the 10 first new products and show them */}
-			<div>
-				{session ? (
-					<p>Connected</p>
+			<table className='table w-[90%] m-4 mx-auto'>
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Informations</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					{/* {Object.values(products).map((product) => (
+						<ProductInfo key={product.id} {...product} />
+					))}
 
-				) : (
-					<p>Not connected</p>
-				)}
-			</div>
+					<tr>
+						<td>
+							<Image src={images[0].url} width={120} height={120} alt={title} />
+						</td>
+						<td>{title}</td>
+						<td>{description}</td>
+						<td>{platform} - {condition}</td>
+						<td>{price}€</td>
+					</tr> */}
+				</tbody>
+			</table>
 		</main>
 	);
 }
