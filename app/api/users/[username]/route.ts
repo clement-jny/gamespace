@@ -15,12 +15,16 @@ export const GET = async (request: NextRequest, { params: { username } }: RouteP
 				username
 			},
 			include: {
-				products: true
+				products: {
+					include: {
+						images: true
+					}
+				}
 			}
 		});
 
 		if (!user) {
-			return sendErrorResponse('User doesn\'t exists', 400);
+			return sendErrorResponse('User doesn\'t exists, please retry !', 400);
 		}
 
 		return sendSuccessResponse('User exists', 200, { user: { ...user, id: undefined, password: undefined } });

@@ -1,4 +1,6 @@
 import { apiGetProfileUser } from '@/lib/apiRequests';
+import { User } from '@/lib/types';
+import { ProductsTable } from './components/ProductsTable';
 
 type ProfileProps = {
 	params: {
@@ -6,27 +8,36 @@ type ProfileProps = {
 	};
 }
 
-// TODO: do profile page, show username and products
 const Profile = async ({ params: { username } }: ProfileProps) => {
 	const { success, data, message } = await apiGetProfileUser(username);
-
 	let user;
+
+
 	if (success && data) {
 		user = data.user;
 	}
 
-	return (
-		<main className='grow'>
-			{user ? (
-				<>
-					<div>Profile page of : {user.username}</div>
-					<div>First article : {user.products[0].title}</div>
-				</>
-			) : (
+	const NoUserFound = () => {
+		return (
+			<main className='grow flex justify-center items-center'>
 				<p>{message}</p>
-			)}
-		</main>
-	)
+			</main>
+		)
+	}
+
+	const UserFound = (user: User) => {
+		return (
+			<main className='grow'>
+				<h1 className='text-3xl font-semibold m-5'>Profile of {user.username} !</h1>
+
+				<ProductsTable {...user.products} />
+			</main >
+		);
+	}
+
+	return (
+		{ ...user ? <UserFound {...user} /> : <NoUserFound /> }
+	);
 }
 
 export default Profile;

@@ -16,7 +16,7 @@ const Dashboard = async () => {
 
 	return (
 		<main className='grow'>
-			<h1 className='text-3xl font-semibold text-center mt-5'>Hello {user.username}, welcome to your dashboard !</h1>
+			<h1 className='text-3xl font-semibold m-5'>Hello {user.username}, welcome to your dashboard !</h1>
 
 			<AddressInfo {...user.address} />
 			<ProductsTable {...user.products} />
