@@ -14,12 +14,6 @@ export const Header = async () => {
 						<Link href='/' className='btn btn-ghost normal-case text-3xl'>GameSpace.</Link>
 					</div>
 
-					<div className='navbar-center'>
-						<div className='form-control'>
-							<input type='text' placeholder='Search' className='input input-bordered w-24 md:w-auto' />
-						</div>
-					</div>
-
 					<div className='navbar-end'>
 						{
 							session && session.user ? (

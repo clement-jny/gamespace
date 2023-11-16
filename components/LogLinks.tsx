@@ -7,11 +7,9 @@ export const LogLinks = ({ user }: { user: { username: string } }) => {
 	return (
 		<div className='dropdown dropdown-end'>
 			<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-				<div className='w-10 rounded-full'>
-					<div className="avatar placeholder">
-						<div className="bg-neutral-focus text-neutral-content rounded-full w-10">
-							<span className="text-xs">{user.username.substring(0, 2)}</span>
-						</div>
+				<div className="avatar online placeholder">
+					<div className="bg-neutral-focus text-neutral-content rounded-full w-10">
+						<span className="text-xs">{user.username.substring(0, 2)}</span>
 					</div>
 				</div>
 			</label>
