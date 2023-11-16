@@ -1,7 +1,13 @@
-export type ApiResponse = {
+export type ApiResponseUser = {
 	success: boolean;
 	message: string;
 	data?: { user: User } | undefined;
+}
+
+export type ApiResponseProducts = {
+	success: boolean;
+	message: string;
+	data?: { products: Product[] } | undefined;
 }
 
 export type User = {
