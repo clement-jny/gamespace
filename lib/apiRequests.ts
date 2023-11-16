@@ -62,3 +62,14 @@ export const apiGetProducts = async (): Promise<ApiResponseProducts> => {
 
 	return await response.json();
 }
+
+export const apiGetPlatformProducts = async (platform: string): Promise<ApiResponseProducts> => {
+	const response = await fetch(`${BASE_URL}/api/products/${platform}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		}
+	});
+
+	return await response.json();
+}

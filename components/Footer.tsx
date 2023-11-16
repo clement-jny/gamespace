@@ -1,7 +1,5 @@
 import Link from 'next/link';
 
-//TODO: remove Company and Legal sections
-
 export const Footer = () => {
 	return (
 		<footer className='footer p-10 bg-base-300 text-base-content sticky top-[100vh]'>
@@ -14,16 +12,6 @@ export const Footer = () => {
 				<Link href='/games/playstation'>Playsation</Link>
 				<Link href='/games/xbox'>Xbox</Link>
 				<Link href='/games/nintendo'>Nintendo</Link>
-			</nav>
-			<nav>
-				<header className='footer-title'>Company</header>
-				<a className='link link-hover'>About us</a>
-			</nav>
-			<nav>
-				<header className='footer-title'>Legal</header>
-				<a className='link link-hover'>Terms of use</a>
-				<a className='link link-hover'>Privacy policy</a>
-				<a className='link link-hover'>Cookie policy</a>
 			</nav>
 		</footer>
 	)
