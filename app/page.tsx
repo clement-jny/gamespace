@@ -1,7 +1,18 @@
+import { apiGetProducts } from "@/lib/apiRequests";
+import { Product } from "@/lib/types";
+import Image from 'next/image';
+
 const Home = async () => {
+	const { success, data } = await apiGetProducts();
+	let products: Product[] = [] as Product[];
+
+	if (success && data) {
+		products = data.products;
+	}
+
 	return (
-		<main className='grow'> {/* flex items-center justify-center */}
-			<h1 className='text-3xl font-semibold m-5'>Here are the 10 last products</h1>
+		<main className='grow'>
+			<h1 className='text-3xl font-semibold m-5'>Here are the 5 last added products</h1>
 
 			<table className='table w-[90%] m-4 mx-auto'>
 				<thead>
@@ -14,19 +25,19 @@ const Home = async () => {
 					</tr>
 				</thead>
 				<tbody>
-					{/* {Object.values(products).map((product) => (
-						<ProductInfo key={product.id} {...product} />
-					))}
-
-					<tr>
-						<td>
-							<Image src={images[0].url} width={120} height={120} alt={title} />
-						</td>
-						<td>{title}</td>
-						<td>{description}</td>
-						<td>{platform} - {condition}</td>
-						<td>{price}€</td>
-					</tr> */}
+					{
+						products.map((product) => (
+							<tr key={product.id}>
+								<td>
+									<Image src={product.images[0].url} width={120} height={120} alt={product.title} />
+								</td>
+								<td>{product.title}</td>
+								<td>{product.description}</td>
+								<td>{product.platform} - {product.condition}</td>
+								<td>{product.price}€</td>
+							</tr>
+						))
+					}
 				</tbody>
 			</table>
 		</main>
