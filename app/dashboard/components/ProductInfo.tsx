@@ -1,7 +1,7 @@
 import { Product } from '@/lib/types';
 import Image from 'next/image';
 
-export const ProductInfo = ({ title, description, price, platform, condition, images }: Product) => {
+export const ProductInfo = ({ title, description, price, platform, productCondition, images }: Product) => {
 	return (
 		<tr>
 			<td>
@@ -9,7 +9,7 @@ export const ProductInfo = ({ title, description, price, platform, condition, im
 			</td>
 			<td>{title}</td>
 			<td>{description}</td>
-			<td>{platform} - {condition}</td>
+			<td>{platform} - {productCondition}</td>
 			<td>{price}€</td>
 		</tr>
 	)

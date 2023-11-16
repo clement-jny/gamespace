@@ -29,7 +29,7 @@ export type Product = {
 	description: string;
 	price: number;
 	platform: Platform;
-	condition: ProductCondition;
+	productCondition: ProductCondition;
 	images: Image[];
 }
 export type Platform = 'PLAYSTATION' | 'XBOX' | 'NINTENDO';
