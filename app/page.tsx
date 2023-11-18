@@ -1,14 +1,35 @@
-import { apiGetProducts } from "@/lib/apiRequests";
+// import { apiGetProducts } from "@/lib/apiRequests";
 import { Product } from "@/lib/types";
 import Image from 'next/image';
 
-const Home = async () => {
-	const { success, data } = await apiGetProducts();
-	let products: Product[] = [] as Product[];
+async function getData() {
+	const response = await fetch(`${process.env.BASE_URL}/api/products`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
 
-	if (success && data) {
-		products = data.products;
+
+	if (!response.ok) {
+		// This will activate the closest `error.js` Error Boundary
+		throw new Error('Failed to fetch data')
 	}
+
+	return response.json()
+}
+
+const Home = async () => {
+	// const { success, data } = await apiGetProducts();
+	// let products: Product[] = [] as Product[];
+
+	// if (success && data) {
+	// 	products = data.products;
+	// }
+
+	// const data = await getData();
+	// console.log(data.data.products);
+
 
 	return (
 		<main className='grow'>
@@ -26,17 +47,17 @@ const Home = async () => {
 				</thead>
 				<tbody>
 					{
-						products.map((product) => (
-							<tr key={product.id}>
-								<td>
-									<Image src={product.images[0].url} width={120} height={120} alt={product.title} />
-								</td>
-								<td>{product.title}</td>
-								<td>{product.description}</td>
-								<td>{product.platform} - {product.productCondition}</td>
-								<td>{product.price}€</td>
-							</tr>
-						))
+						// data.data.products.map((product: Product) => (
+						// 	<tr key={product.id}>
+						// 		<td>
+						// 			<Image src={product.images[0].url} width={120} height={120} alt={product.title} />
+						// 		</td>
+						// 		<td>{product.title}</td>
+						// 		<td>{product.description}</td>
+						// 		<td>{product.platform} - {product.productCondition}</td>
+						// 		<td>{product.price}€</td>
+						// 	</tr>
+						// ))
 					}
 				</tbody>
 			</table>
