@@ -2,6 +2,8 @@ import { apiGetProducts } from "@/lib/apiRequests";
 import { Product } from "@/lib/types";
 import Image from 'next/image';
 
+export const dynamic = "force-dynamic"; // 👈🏽 
+
 const Home = async () => {
 	const { success, data } = await apiGetProducts();
 	let products: Product[] = [] as Product[];
