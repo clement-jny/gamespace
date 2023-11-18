@@ -7,25 +7,7 @@ import { RegisterUserInput, RegisterUserSchema } from '@/lib/validations/user.sc
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/FormInput';
-// import { apiRegisterUser } from '@/lib/apiRequests';
-
-async function getData(credentials: string) {
-	const response = await fetch(`${process.env.BASE_URL}/api/auth/register`, {
-		method: 'POST',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: credentials
-	});
-
-	if (!response.ok) {
-		// This will activate the closest `error.js` Error Boundary
-		throw new Error('Failed to fetch data')
-	}
-
-	return response.json()
-}
+import { apiRegisterUser } from '@/lib/apiRequests';
 
 export const RegisterForm = () => {
 	const router = useRouter();
@@ -37,15 +19,14 @@ export const RegisterForm = () => {
 	const { handleSubmit } = methods;
 
 	const onSubmitHandler: SubmitHandler<RegisterUserInput> = async (values) => {
-		const data = await getData(JSON.stringify(values));
-		// const { success, message } = await apiRegisterUser(JSON.stringify(values));
+		const { success, message } = await apiRegisterUser(JSON.stringify(values));
 
-		if (data.success) {
-			toast.success(data.message);
+		if (success) {
+			toast.success(message);
 
 			router.push('/login');
 		} else {
-			toast.error(data.message);
+			toast.error(message);
 		}
 	};
 

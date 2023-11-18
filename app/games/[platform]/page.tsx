@@ -1,22 +1,6 @@
-// import { apiGetPlatformProducts } from '@/lib/apiRequests';
+import { apiGetPlatformProducts } from '@/lib/apiRequests';
 import { Product } from '@/lib/types';
 import { ProductsTable } from './components/ProductsTable';
-
-async function getData(platform: string) {
-	const response = await fetch(`${process.env.BASE_URL}/api/products/${platform}`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		}
-	});
-
-	if (!response.ok) {
-		// This will activate the closest `error.js` Error Boundary
-		throw new Error('Failed to fetch data')
-	}
-
-	return response.json()
-}
 
 type PlatformProps = {
 	params: {
@@ -25,18 +9,17 @@ type PlatformProps = {
 }
 
 const Platform = async ({ params: { platform } }: PlatformProps) => {
-	const data = await getData(platform);
-	// const { success, data, message } = await apiGetPlatformProducts(platform);
+	const { success, data, message } = await apiGetPlatformProducts(platform);
 	let products;
 
-	if (data.success && data.data) {
-		products = data.data.products;
+	if (success && data) {
+		products = data.products;
 	}
 
 	const PlatformNotFound = () => {
 		return (
 			<main className='grow flex justify-center items-center'>
-				<p>{data.message}</p>
+				<p>{message}</p>
 			</main>
 		)
 	}
